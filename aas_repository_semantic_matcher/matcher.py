@@ -5,6 +5,8 @@ from basyx.aas import model
 from basyx.aas.util import traversal
 import aas_python_http_client as aas_client
 
+import xmlization
+
 
 @dataclasses.dataclass
 class SemanticIndexElement:
@@ -113,7 +115,7 @@ class AASRepositoryMatcher:
         for submodel in self._submodel_repo_client.get_all_submodels().result:
             self._add_submodel_to_semantic_id_index(submodel)
 
-    def return_matches(self):
+    def print_matches(self):
         # Here's the idea:
         # Each key of the semantic_id_index is the set of semantically equivalent SubmodelElements
         # (Under the assumption of only exact matching)
@@ -122,7 +124,26 @@ class AASRepositoryMatcher:
             for i in value:
                 print(f"\t{i}")
 
+    def matches_to_xml(self) -> str:
+        # Write the semantic_id_index to the standardized XML string
+        root = xmlization.create_root()
+        for index_key, index_elements in self.semantic_id_index.items():
+            link = xmlization.add_link(
+                root,
+                link_type="Equivalence",
+                comment="tbd"  # Todo
+            )
+            for index_element in index_elements:
+                xmlization.add_element(
+                    link=link,
+                    element_id="todo",  # Todo: Determine idShort Path of the Element
+                    name=f"{index_element.semantically_identified_referable.__class__.__name__}",
+                    model="tbd",  # Todo
+                    tool="BaSyx"
+                )
+        return xmlization.write_xml_to_string(root)
+
 
 if __name__ == "__main__":
     matcher = AASRepositoryMatcher("http://localhost:8080/api/v3.0")
-    matcher.return_matches()
+    print(matcher.matches_to_xml())
