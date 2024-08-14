@@ -1,0 +1,12 @@
+services:
+  aas-repository:
+    build: .
+    container_name: basyx-python-aas-server
+    volumes:
+      - ./storage:/storage
+    ports:
+      - 8080:80
+    environment:
+      - STORAGE_PATH=/storage
+      - STORAGE_TYPE=LOCAL_FILE
+    restart: unless-stopped

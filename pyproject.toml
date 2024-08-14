@@ -1,0 +1,27 @@
+[project]
+name = "aas_repository_semantic_matcher"
+description = "A Semantic Matcher for an AAS Repository Server"
+version = "0.1"
+dependencies = [
+  "basyx-python-sdk>=1.0.0",
+  "aas-python-http-client>=1.0.0"
+]
+requires-python = ">= 3.8"
+authors = [
+  {name = "Sebastian Heppner", email = "s.heppner@iat.rwth-aachen.de"},
+]
+maintainers = [
+  {name = "Sebastian Heppner", email = "s.heppner@iat.rwth-aachen.de"},
+]
+readme = {file = "README.md", content-type = "text/markdown"}
+license = {file = "LICENSE"}
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Build Tools",
+  "License :: OSI Approved :: MIT License",
+]
+
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
