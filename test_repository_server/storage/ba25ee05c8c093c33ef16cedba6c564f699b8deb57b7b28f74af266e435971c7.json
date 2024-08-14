@@ -1,0 +1,24 @@
+{
+    "data": {
+        "idShort": "exampleSubmodel1",
+        "modelType": "Submodel",
+        "id": "https://iat.rwth-aachen.de/aas-repository-semantic-matcher/example_submodel_1",
+        "submodelElements": [
+            {
+                "idShort": "ExampleProperty",
+                "modelType": "Property",
+                "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                        {
+                            "type": "GlobalReference",
+                            "value": "https://iat.rwth-aachen.de/aas-repository-semantic-matcher/semanticIDs/1"
+                        }
+                    ]
+                },
+                "value": "exampleValue",
+                "valueType": "xs:string"
+            }
+        ]
+    }
+}

@@ -1,0 +1,39 @@
+{
+    "data": {
+        "idShort": "exampleSubmodel2",
+        "modelType": "Submodel",
+        "id": "https://iat.rwth-aachen.de/aas-repository-semantic-matcher/example_submodel_2",
+        "submodelElements": [
+            {
+                "idShort": "ExampleProperty2",
+                "modelType": "Property",
+                "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                        {
+                            "type": "GlobalReference",
+                            "value": "https://iat.rwth-aachen.de/aas-repository-semantic-matcher/semanticIDs/1"
+                        }
+                    ]
+                },
+                "value": "exampleValue2",
+                "valueType": "xs:string"
+            },
+            {
+                "idShort": "ExampleProperty3",
+                "modelType": "Property",
+                "semanticId": {
+                    "type": "ExternalReference",
+                    "keys": [
+                        {
+                            "type": "GlobalReference",
+                            "value": "https://iat.rwth-aachen.de/aas-repository-semantic-matcher/semanticIDs/2"
+                        }
+                    ]
+                },
+                "value": "exampleValue3",
+                "valueType": "xs:string"
+            }
+        ]
+    }
+}
