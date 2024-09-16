@@ -1,5 +1,6 @@
+import base64
 import dataclasses
-from typing import Optional, Dict, Set
+from typing import Optional, Dict, Set, List
 
 from basyx.aas import model
 from basyx.aas.util import traversal
@@ -131,17 +132,61 @@ class AASRepositoryMatcher:
             link = xmlization.add_link(
                 root,
                 link_type="Equivalence",
-                comment="tbd"  # Todo
+                comment=f"Created by indexing {self.repository_endpoint} via https://github.com/rwth-iat/aas-repository-semantic-matcher"  # Todo
             )
             for index_element in index_elements:
                 xmlization.add_element(
                     link=link,
-                    element_id="todo",  # Todo: Determine idShort Path of the Element
+                    element_id=self._create_element_id(index_element.semantically_identified_referable),
                     name=f"{index_element.semantically_identified_referable.__class__.__name__}",
-                    model="tbd",  # Todo
+                    model=self._get_identifiable_identifier(index_element.semantically_identified_referable),
                     tool="BaSyx"
                 )
         return xmlization.write_xml_to_string(root)
+
+    def _create_element_id(self, index_element: model.Referable) -> str:
+        identifier = base64.b64encode(self._get_identifiable_identifier(index_element).encode("UTF-8")).decode("UTF-8")
+        id_short_path = self._get_referable_id_short_path(index_element)
+        return f"{self.repository_endpoint}/{identifier}/submodel/submodel-elements/{id_short_path}"
+
+    @classmethod
+    def _get_referable_id_short_path(cls, referable: model.Referable) -> str:
+        """
+        Returns the IDShort Path of the given referable
+
+        Todo: Contains https://iat.rwth-aachen.de/aas-repository-semantic-matcher for some reason
+        """
+        reversed_path = []
+        item: Optional[model.Referable] = referable
+        if item.id_short is not None:
+            while item is not None:
+                if isinstance(item, model.Identifiable):
+                    reversed_path.append(item.id_short)
+                    break
+                elif isinstance(item, model.Referable):
+                    if isinstance(item.parent, model.SubmodelElementList):
+                        reversed_path.append(f"{item.parent.id_short}[{item.parent.value.index(item)}]")
+                        item = item.parent
+                    else:
+                        reversed_path.append(item.id_short)
+                    item = item.parent
+                else:
+                    raise AttributeError('Referable must have an identifiable as root object and only parents that are '
+                                         'referable')
+        return "{}".format(".".join(reversed(reversed_path))) if reversed_path else ""
+
+    @classmethod
+    def _get_identifiable_identifier(cls, referable: model.Referable) -> str:
+        step: Optional[model.Referable] = referable
+        identifiable: Optional[model.Identifiable] = None
+        while step is not None:
+            if isinstance(step, model.Identifiable):
+                identifiable = step
+            step = step.parent
+        if isinstance(identifiable, model.Identifiable):
+            return identifiable.id
+        else:
+            raise KeyError(f"Could not determine Identifiable parent of {referable}")
 
 
 if __name__ == "__main__":
