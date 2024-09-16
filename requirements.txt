@@ -1,0 +1,2 @@
+basyx-python-sdk>=1.0.0
+aas-python-http-client>=1.0.0
