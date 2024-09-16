@@ -41,10 +41,7 @@ class AASRepositoryMatcher:
         self._api_configuration.host = self.repository_endpoint
         self._api_client = aas_client.ApiClient(self._api_configuration)
         self._submodel_repo_client = aas_client.SubmodelRepositoryAPIApi(self._api_client)
-
-        print("Indexing, please wait")
         self.index_repository_server()
-        print("Index complete")
 
     def _add_semantic_id_to_index(
             self,
@@ -190,5 +187,12 @@ class AASRepositoryMatcher:
 
 
 if __name__ == "__main__":
-    matcher = AASRepositoryMatcher("http://localhost:8080/api/v3.0")
+    import sys
+    # Ensure that a URL is passed as a command-line argument
+    if len(sys.argv) != 2:
+        print("Usage: python matcher.py <repository_endpoint>")
+        sys.exit(1)
+
+    repository_endpoint = sys.argv[1]
+    matcher = AASRepositoryMatcher(repository_endpoint)
     print(matcher.matches_to_xml())
