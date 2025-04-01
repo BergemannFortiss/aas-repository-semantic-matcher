@@ -126,6 +126,9 @@ class AASRepositoryMatcher:
         # Write the semantic_id_index to the standardized XML string
         root = xmlization.create_root()
         for index_key, index_elements in self.semantic_id_index.items():
+            # We skip index_elements that do not match anything but themselves
+            if len(index_elements) < 2:
+                continue
             link = xmlization.add_link(
                 root,
                 link_type="Equivalence",
