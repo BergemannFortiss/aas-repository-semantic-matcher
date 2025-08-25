@@ -26,6 +26,8 @@ python aas_repository_semantic_matcher/matcher.py "http://localhost:8080/api/v3.
 ```
 where `"http://localhost:8080/api/v3.0"` is the endpoint of the AAS Repository Server.
 
+You can find then a created file with links between submodel elements based on the found semantic matches on the top level of this repository: `semanticLinks.xml`
+
 ### Option 2: Via Docker
 In order to run the script via Docker, you first need to build the container from the `Dockerfile`:
 
@@ -38,10 +40,18 @@ Hereby, `aas_repository_matcher` is the name you want to give the image.
 Then, you can run a container based on this image: 
 
 ```bash
-sudo docker run -e REPOSITORY_ENDPOINT="http://host.docker.internal:8080/api/v3.0" aas_repository_matcher
+sudo docker run -e REPOSITORY_ENDPOINT="http://host.docker.internal:8080/api/v3.0" --name aas_repository_matcher_container aas_repository_matcher
 ```
-where `REPOSITORY_ENDPOINT` specifies the endpoint of the AAS Repository Server and
+where `REPOSITORY_ENDPOINT` specifies the endpoint of the AAS Repository Server, 
+`aas_repository_matcher_container` is the name you want to give your container and
 `aas_repository_matcher` is the name you gave the image in the command above.
+
+You can get a created file with links between submodel elements based on the found semantic matches via:
+```bash
+sudo docker cp aas_repository_matcher_container:/app/semanticLinks.xml ./
+```
+where `aas_repository_matcher_container` is the name you gave the container in the command above (not the image!) 
+and the last argument is the path where you want to place the file on your host.
 
 > [!note]
 > Your `http://localhost` on the Docker Host is accessible via `http://host.docker.internal` inside the container,
