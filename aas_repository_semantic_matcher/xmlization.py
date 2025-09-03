@@ -16,13 +16,15 @@ def add_link(root, link_type, comment):
     return link
 
 
-def add_element(link, element_id, name, model, tool):
+def add_element(link, element_id, name, model, tool, element_class):
     # Create an <element> element and set its attributes
     element = ET.SubElement(link, "element")
     element.set("id", element_id)
     element.set("name", name)
     element.set("model", model)
     element.set("tool", tool)
+    element_class_element = ET.SubElement(element, "elementClass")
+    element_class_element.text = element_class
 
 
 def write_xml_to_string(root):

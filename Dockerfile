@@ -23,4 +23,3 @@ ENV PYTHONPATH=/app
 
 # Command to run the FastAPI server
 CMD python aas_repository_semantic_matcher/matcher.py "$REPOSITORY_ENDPOINT"
-

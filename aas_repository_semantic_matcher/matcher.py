@@ -140,7 +140,8 @@ class AASRepositoryMatcher:
                     element_id=self._create_element_id(index_element.semantically_identified_referable),
                     name=f"{index_element.semantically_identified_referable.__class__.__name__}",
                     model=self._get_identifiable_identifier(index_element.semantically_identified_referable),
-                    tool="BaSyx"
+                    tool="BaSyx",
+                    element_class=str(index_key)  # The index_key is the semantic ID, which is used as element class in this context.
                 )
         return xmlization.write_xml_to_string(root)
 
@@ -198,4 +199,7 @@ if __name__ == "__main__":
 
     repository_endpoint = sys.argv[1]
     matcher = AASRepositoryMatcher(repository_endpoint)
-    print(matcher.matches_to_xml())
+    matches_string = matcher.matches_to_xml()
+    with open("semanticLinks.xml", "w", encoding="utf-8") as file:
+        file.write(matches_string)
+    print(matches_string)
