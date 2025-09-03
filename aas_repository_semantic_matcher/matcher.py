@@ -135,7 +135,6 @@ class AASRepositoryMatcher:
                 comment=f"Created by indexing {self.repository_endpoint} via https://github.com/rwth-iat/aas-repository-semantic-matcher"  # Todo
             )
             for index_element in index_elements:
-                # The index_key is the semantic ID, which is used as element class in this context.
                 xmlization.add_element(
                     link=link,
                     element_id=self._create_element_id(index_element.semantically_identified_referable),
